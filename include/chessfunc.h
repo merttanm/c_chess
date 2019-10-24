@@ -7,6 +7,11 @@
 void initBoard(struct Board *board);
 
 /*
+ *
+ */
+void destroyBoard(struct Board *board); 
+
+/*
  * sets all pieces to their starting positions
  * @param board pointer to Board data structure
  */ 
@@ -22,3 +27,8 @@ void movePiece(struct Point *p);
  *
  */ 
 char *sideStr(struct Piece *piece);
+
+/*
+ *
+ */
+struct Point **getPossibleMoves(struct Piece *piece); 

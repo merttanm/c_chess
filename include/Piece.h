@@ -17,6 +17,6 @@ struct Piece{
     /*
      *
      */
-    SDL_Rect dstrect, *rectptr;
+    SDL_Rect dstrect;
     
 };

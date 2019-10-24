@@ -1,17 +1,35 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "../include/chessfunc.h"
 
 void initBoard(struct Board *board){
-    // because these need to be initialized after
-    // the board struct is initialized
-    board->ROOK = "ROOK";
-    board->KNIGHT = "KNIGHT";
-    board->BISHOP = "BISHOP";
-    board->QUEEN = "QUEEN";
-    board->KING = "KING";
-    board->PAWN = "PAWN";
-    board->EMPTY = "EMPTY";
+    board->ROOK = malloc(sizeof(char)*10);
+    board->KNIGHT = malloc(sizeof(char)*10);
+    board->BISHOP = malloc(sizeof(char)*10);
+    board->QUEEN = malloc(sizeof(char)*10);
+    board->KING = malloc(sizeof(char)*10);
+    board->PAWN = malloc(sizeof(char)*10);
+    board->EMPTY = malloc(sizeof(char)*10);
+
+    strcpy(board->ROOK, "ROOK");
+    strcpy(board->KNIGHT, "KNIGHT");
+    strcpy(board->BISHOP, "BISHOP");
+    strcpy(board->QUEEN, "QUEEN");
+    strcpy(board->KING, "KING");
+    strcpy(board->PAWN, "PAWN");
+    strcpy(board->EMPTY, "EMPTY");
+}
+
+void destroyBoard(struct Board *board){
+    free(board->ROOK);
+    free(board->KNIGHT);
+    free(board->BISHOP);
+    free(board->QUEEN);
+    free(board->KING);
+    free(board->PAWN);
+    free(board->EMPTY);
 }
 
 void newGame(struct Board *board){
@@ -172,4 +190,8 @@ char *sideStr(struct Piece *piece){
         return "BLACK";
     else
         return "EMPTY";
+}
+
+struct Point **getPossibleMoves(struct Piece *piece){
+    return 0;
 }
