@@ -9,13 +9,7 @@
 
 /*
  * TODO
- * create SDL_Rects that represent where
- * each texture should be
- * (see SDL_RenderCopy documentation)
- * piece textures are stretched 
- * because dstrect is NULL
- * it is OK for dstrect to be NULL
- * for the board texture
+ * test pawn movement algorithm
  */
 
 int main(int argc, char** argv){

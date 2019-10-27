@@ -27,7 +27,7 @@ void movePiece(struct Point *p);
  *
  */
 void ll_push(
-    struct Node** head_ref, 
+    struct Node **head_ref, 
     struct Point *new_data, 
     size_t data_size);
 
