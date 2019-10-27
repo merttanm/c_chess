@@ -20,7 +20,8 @@
 
 int main(int argc, char** argv){
     struct Board board, *bptr = &board;
-    struct Piece piece;
+    struct Piece piece, *pptr;
+    struct Node *list = malloc(sizeof(struct Node));
     SDL_Rect *select_rect, *rectptr;
     select_rect = malloc(sizeof(SDL_Rect));
     initBoard(bptr);
@@ -32,10 +33,11 @@ int main(int argc, char** argv){
     select_rect->w = THICK_PIECE;
     select_rect->h = THICK_PIECE;
 
-    int mX, mY, last_mX, last_mY, flag;
+    int mX, mY, last_mX, last_mY, flag, flag2;
     mX = -1;
     mY = -1;
     flag = 0;
+    flag2 = 0;
 
     // returns zero on success else non-zero
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0) 
@@ -194,23 +196,33 @@ int main(int argc, char** argv){
                     last_mY = mY;
                     mX = event.button.x/100;
                     mY = event.button.y/100;
+                    pptr = &board.board[mX][mY].piece;
                     switch(event.button.button){
                         case SDL_BUTTON_LEFT:
                             printf("Click: ");
                             printf(
                                 "%s %s AT (%d,%d)\n",
-                                sideStr(&board.board[mX][mY].piece),
+                                sideStr(pptr),
                                 board.board[mX][mY].piece.type, 
                                 mX, 
                                 mY);
+                            list = getPossibleMoves(list, pptr, bptr);
+                            printf("moves: ");
+                            ll_print(list);
                                 
                             select_rect->x = mX*100;
                             select_rect->y = mY*100;
                             
-                            if(last_mX != mX || last_mY != mY)
+                            if(last_mX != mX || last_mY != mY){
                                 flag = 1;
-                            else if(last_mX == mX && last_mY == mY)
+                                flag2 = 0;
+                            }else if(last_mX == mX && last_mY == mY && flag2 == 1){
+                                flag = 1;
+                                flag2 = 0;
+                            }else if(last_mX == mX && last_mY == mY){
                                 flag = 0;
+                                flag2 = 1;
+                            }
 
                             break;
                         
@@ -307,6 +319,7 @@ int main(int argc, char** argv){
     // free allocated memory
     free(select_rect);
     destroyBoard(bptr);
+    free(list);
 
     return 0;
 }

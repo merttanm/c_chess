@@ -9,6 +9,10 @@ struct Piece{
      */ 
     int side;
 
+    int x;
+
+    int y;
+
     /*
      *
      */ 

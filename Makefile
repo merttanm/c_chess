@@ -9,10 +9,10 @@
 IDIR= include
 CC= gcc
 CFLAGS= `sdl2-config --libs --cflags` -I. -Wall -lSDL2_image
-_DEPS= Board.h Piece.h Point.h chessfunc.h
+_DEPS= Board.h Piece.h Point.h chessfunc.h node.h
 DEPS= $(patsubst %,$(IDIR)/%,$(_DEPS))
 OBJ= build/main.o build/chessfunc.o
-MAKEFLAGS += -s
+MAKEFLAGS+= -s
 
 default: bin/main
 

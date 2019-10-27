@@ -1,5 +1,5 @@
-#include "Piece.h"
 #include "Board.h"
+#include "node.h"
 
 /*
  *
@@ -25,10 +25,26 @@ void movePiece(struct Point *p);
 
 /*
  *
+ */
+void ll_push(
+    struct Node** head_ref, 
+    struct Point *new_data, 
+    size_t data_size);
+
+/*
+ *
+ */
+void ll_print(struct Node *ll);  
+
+/*
+ *
  */ 
 char *sideStr(struct Piece *piece);
 
 /*
  *
  */
-struct Point **getPossibleMoves(struct Piece *piece); 
+struct Node *getPossibleMoves(
+    struct Node *ll, 
+    struct Piece *piece,
+    struct Board *board);
