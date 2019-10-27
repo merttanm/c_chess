@@ -9,7 +9,9 @@
 
 /*
  * TODO
+ * add movement
  * test pawn movement algorithm
+ * test rook movement algorithm
  */
 
 int main(int argc, char** argv){
