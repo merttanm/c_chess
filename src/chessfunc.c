@@ -251,8 +251,92 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
     unsigned pt_size = sizeof(struct Point);
     
     if(strcmp(piece->type, "ROOK") == 0){
-        //int x = piece->x;
-        //int y = piece->y;
+        int x = piece->x;
+        int y = piece->y;
+
+        // right
+        for(x+=1; x < 8; x++){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push(
+                    &ll,
+                    &board->board[x][y],
+                    pt_size);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push(
+                        &ll,
+                        &board->board[x][y],
+                        pt_size);
+                    break;
+                }
+            }
+        }
+        x = piece->x;
+
+        // left
+        for(x-=1; x >= 0; x--){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push(
+                    &ll,
+                    &board->board[x][y],
+                    pt_size);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push(
+                        &ll,
+                        &board->board[x][y],
+                        pt_size);
+                    break;
+                }
+            }
+        }
+        x = piece->x;
+
+        // up
+        for(y-=1; y >= 0; y--){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push(
+                    &ll,
+                    &board->board[x][y],
+                    pt_size);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push(
+                        &ll,
+                        &board->board[x][y],
+                        pt_size);
+                    break;
+                }
+            }
+        }
+        y = piece->y;
+
+        // down
+        for(y+=1; y < 8; y++){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push(
+                    &ll,
+                    &board->board[x][y],
+                    pt_size);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push(
+                        &ll,
+                        &board->board[x][y],
+                        pt_size);
+                    break;
+                }
+            }
+        }
+
         return ll;
     }
 
@@ -305,13 +389,17 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
             }
 
             // captures
-            if(strcmp(board->board[piece->x-1][piece->y-1].piece.type, "EMPTY") != 0){
+            if(strcmp(board->board[piece->x-1][piece->y-1].piece.type, "EMPTY") != 0
+            && piece->x-1 >= 0 && piece->x-1 <= 7
+            && piece->y-1 >= 0 && piece->y-1 <= 7){
                 ll_push(
                     &ll,
                     &board->board[piece->x-1][piece->y-1],
                     pt_size);
             }
-            if(strcmp(board->board[piece->x+1][piece->y-1].piece.type, "EMPTY") != 0){
+            if(strcmp(board->board[piece->x+1][piece->y-1].piece.type, "EMPTY") != 0
+            && piece->x+1 >= 0 && piece->x+1 <= 7
+            && piece->y-1 >= 0 && piece->y-1 <= 7){
                 ll_push(
                     &ll,
                     &board->board[piece->x+1][piece->y-1],
@@ -338,13 +426,17 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
             }
 
             // captures
-            if(strcmp(board->board[piece->x-1][piece->y+1].piece.type, "EMPTY") != 0){
+            if(strcmp(board->board[piece->x-1][piece->y+1].piece.type, "EMPTY") != 0
+            && piece->x-1 >= 0 && piece->x-1 <= 7
+            && piece->y+1 >= 0 && piece->y+1 <= 7){
                 ll_push(
                     &ll,
                     &board->board[piece->x-1][piece->y+1],
                     pt_size);
             }
-            if(strcmp(board->board[piece->x+1][piece->y+1].piece.type, "EMPTY") != 0){
+            if(strcmp(board->board[piece->x+1][piece->y+1].piece.type, "EMPTY") != 0
+            && piece->x+1 >= 0 && piece->x+1 <= 7
+            && piece->y+1 >= 0 && piece->y+1 <= 7){
                 ll_push(
                     &ll,
                     &board->board[piece->x+1][piece->y+1],
