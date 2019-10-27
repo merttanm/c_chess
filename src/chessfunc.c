@@ -44,7 +44,7 @@ void newGame(struct Board *board){
 
             // rooks
             if((x==0 || x==7) && y==0){
-                piece.side = 0;
+                piece.side = 1;
                 piece.type = board->ROOK;
                 piece.x = x;
                 piece.y = y;
@@ -55,7 +55,7 @@ void newGame(struct Board *board){
                 point.piece = piece;
                 board->board[x][y] = point;
             }else if((x==0 || x==7) && y==7){
-                piece.side = 1;
+                piece.side = 0;
                 piece.type = board->ROOK;
                 piece.x = x;
                 piece.y = y;
@@ -69,7 +69,7 @@ void newGame(struct Board *board){
 
             // knights
             else if((x==1 || x==6) && y==0){
-                piece.side = 0;
+                piece.side = 1;
                 piece.type = board->KNIGHT;
                 piece.x = x;
                 piece.y = y;
@@ -80,7 +80,7 @@ void newGame(struct Board *board){
                 point.piece = piece;
                 board->board[x][y] = point;
             }else if((x==1 || x==6) && y==7){
-                piece.side = 1;
+                piece.side = 0;
                 piece.type = board->KNIGHT;
                 piece.x = x;
                 piece.y = y;
@@ -94,7 +94,7 @@ void newGame(struct Board *board){
 
             // bishops
             else if((x==2 || x==5) && y==0){
-                piece.side = 0;
+                piece.side = 1;
                 piece.type = board->BISHOP;
                 piece.x = x;
                 piece.y = y;
@@ -105,7 +105,7 @@ void newGame(struct Board *board){
                 point.piece = piece;
                 board->board[x][y] = point;
             }else if((x==2 || x==5) && y==7){
-                piece.side = 1;
+                piece.side = 0;
                 piece.type = board->BISHOP;
                 piece.x = x;
                 piece.y = y;
@@ -119,7 +119,7 @@ void newGame(struct Board *board){
 
             // queens
             else if(x==3 && y==0){
-                piece.side = 0;
+                piece.side = 1;
                 piece.type = board->QUEEN;
                 piece.x = x;
                 piece.y = y;
@@ -130,7 +130,7 @@ void newGame(struct Board *board){
                 point.piece = piece;
                 board->board[x][y] = point;
             }else if(x==3 && y==7){
-                piece.side = 1;
+                piece.side = 0;
                 piece.type = board->QUEEN;
                 piece.x = x;
                 piece.y = y;
@@ -144,7 +144,7 @@ void newGame(struct Board *board){
 
             // kings
             else if(x==4 && y==0){
-                piece.side = 0;
+                piece.side = 1;
                 piece.type = board->KING;
                 piece.x = x;
                 piece.y = y;
@@ -155,7 +155,7 @@ void newGame(struct Board *board){
                 point.piece = piece;
                 board->board[x][y] = point;
             }else if(x==4 && y==7){
-                piece.side = 1;
+                piece.side = 0;
                 piece.type = board->KING;
                 piece.x = x;
                 piece.y = y;
@@ -169,7 +169,7 @@ void newGame(struct Board *board){
 
             // pawns
             else if(y==1){
-                piece.side = 0;
+                piece.side = 1;
                 piece.type = board->PAWN;
                 piece.x = x;
                 piece.y = y;
@@ -180,7 +180,7 @@ void newGame(struct Board *board){
                 point.piece = piece;
                 board->board[x][y] = point;
             }else if(y==6){
-                piece.side = 1;
+                piece.side = 0;
                 piece.type = board->PAWN;
                 piece.x = x;
                 piece.y = y;
@@ -282,6 +282,13 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
     else if(strcmp(piece->type, "PAWN") == 0){
         //int x = piece->x;
         //int y = piece->y;
+        
+        if(piece->side == 0){
+
+        }else if(piece->side == 1){
+
+        }
+
         return ll;
     }
 
