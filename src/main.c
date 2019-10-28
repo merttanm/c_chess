@@ -11,14 +11,15 @@
  * TODO
  * add error checking
  * add documentation
- * add movement
+ * add remaining piece movement algorithms 
+ * add pawn trade-in mechanic
  * test pawn movement algorithm
  * test rook movement algorithm
  */
 
 int main(int argc, char** argv){
     struct Board board;
-    struct Piece piece, *pptr;
+    struct Piece piece;
     struct pointNode *list = malloc(sizeof(struct pointNode));
     struct rectNode *mrect_list = malloc(sizeof(struct rectNode));
     initBoard(&board);
@@ -28,9 +29,9 @@ int main(int argc, char** argv){
     THICK_BOARD = 800;
     THICK_PIECE = 100;
 
-    int mX, mY, last_mX, last_mY, flag, flag2, cmx, cmy;
+    int mX, mY, last_mX, last_mY, flag, flag2, flag3, cmx, cmy;
     mX = mY = -1;
-    flag = flag2 = cmx = cmy = 0;
+    flag = flag2 = flag3 = cmx = cmy = 0;
 
     // returns zero on success else non-zero
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0) 
@@ -57,22 +58,18 @@ int main(int argc, char** argv){
         SDL_BLENDMODE_BLEND);
 
     SDL_Surface *board_surface;
-
     SDL_Surface *rook_surface_w, *knight_surface_w, *bishop_surface_w;
     SDL_Surface *queen_surface_w, *king_surface_w, *pawn_surface_w;
-    
     SDL_Surface *rook_surface_b, *knight_surface_b, *bishop_surface_b;
     SDL_Surface *queen_surface_b, *king_surface_b, *pawn_surface_b;
     
     board_surface = IMG_Load("../resources/chess_board.png");
-    
     rook_surface_w = IMG_Load("../resources/rook_w.png");
     knight_surface_w = IMG_Load("../resources/knight_w.png");
     bishop_surface_w = IMG_Load("../resources/bishop_w.png");
     queen_surface_w = IMG_Load("../resources/queen_w.png");
     king_surface_w = IMG_Load("../resources/king_w.png");
     pawn_surface_w = IMG_Load("../resources/pawn_w.png");
-
     rook_surface_b = IMG_Load("../resources/rook_b.png");
     knight_surface_b = IMG_Load("../resources/knight_b.png");
     bishop_surface_b = IMG_Load("../resources/bishop_b.png");
@@ -80,12 +77,11 @@ int main(int argc, char** argv){
     king_surface_b = IMG_Load("../resources/king_b.png");
     pawn_surface_b = IMG_Load("../resources/pawn_b.png");
 
-    // loads image to our graphics hardware memory. 
+    // loads image to gfx hardware memory
     SDL_Texture *board_tex;
     board_tex = SDL_CreateTextureFromSurface(
         rend, 
         board_surface);
-    
     SDL_Texture *rook_tex_w;
     rook_tex_w = SDL_CreateTextureFromSurface(
         rend,
@@ -110,7 +106,6 @@ int main(int argc, char** argv){
     pawn_tex_w = SDL_CreateTextureFromSurface(
         rend,
         pawn_surface_w);  
-
     SDL_Texture *rook_tex_b;
     rook_tex_b = SDL_CreateTextureFromSurface(
         rend,
@@ -136,17 +131,14 @@ int main(int argc, char** argv){
         rend,
         pawn_surface_b);    
 
-
     // clear main-memory 
     SDL_FreeSurface(board_surface);
-
     SDL_FreeSurface(rook_surface_w);
     SDL_FreeSurface(knight_surface_w);
     SDL_FreeSurface(bishop_surface_w);
     SDL_FreeSurface(queen_surface_w);
     SDL_FreeSurface(king_surface_w);
     SDL_FreeSurface(pawn_surface_w);
-    
     SDL_FreeSurface(rook_surface_b);
     SDL_FreeSurface(knight_surface_b);
     SDL_FreeSurface(bishop_surface_b);
@@ -154,17 +146,14 @@ int main(int argc, char** argv){
     SDL_FreeSurface(king_surface_b);
     SDL_FreeSurface(pawn_surface_b);
 
-
     // connect our textures with dest to control position 
     SDL_QueryTexture(board_tex, NULL, NULL, &THICK_BOARD, &THICK_BOARD);
-
     SDL_QueryTexture(rook_tex_w, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(knight_tex_w, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(bishop_tex_w, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(queen_tex_w, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(king_tex_w, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(pawn_tex_w, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
-
     SDL_QueryTexture(rook_tex_b, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(knight_tex_b, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
     SDL_QueryTexture(bishop_tex_b, NULL, NULL, &THICK_PIECE, &THICK_PIECE);
@@ -195,21 +184,40 @@ int main(int argc, char** argv){
                     last_mY = mY;
                     mX = event.button.x/100;
                     mY = event.button.y/100;
-                    pptr = &board.board[mX][mY].piece;
                     switch(event.button.button){
                         case SDL_BUTTON_LEFT:
-                            printf("Click: ");
-                            printf(
-                                "%s %s AT (%d,%d)\n",
-                                sideStr(pptr),
-                                board.board[mX][mY].piece.type, 
-                                mX, 
-                                mY);
-                            list = getPossibleMoves(list, pptr, &board);
+
+                            /*printf("Click: ");
+                                printf(
+                                    "%s %s AT (%d,%d)\n",
+                                    sideStr(&board.board[mX][mY].piece),
+                                    board.board[mX][mY].piece.type, 
+                                    mX, 
+                                    mY);
+                            list = getPossibleMoves(list, &board.board[mX][mY].piece, &board);
                             printf("moves: ");
-                            ll_print_points(list);
-                            
-                            if(last_mX != mX || last_mY != mY){
+                            ll_print_points(list);*/
+
+                            if(flag == 1){
+                                if(can_move_to(
+                                    &board.board[last_mX][last_mY].piece,
+                                    &board.board[mX][mY],
+                                    &board)){
+                                        flag3 = 1;
+                                        movePiece(
+                                            &board.board[last_mX][last_mY],
+                                            &board.board[mX][mY],
+                                            &board);
+                                    }
+                                        
+                            }
+
+                            if(flag3 == 1){
+                                flag = 0;
+                                flag2 = 1;
+                                flag3 = 0;
+                            }
+                            else if(last_mX != mX || last_mY != mY){
                                 flag = 1;
                                 flag2 = 0;
                                 mrect_list = getMRects(mrect_list, list);
@@ -273,7 +281,7 @@ int main(int argc, char** argv){
         // moused-over rect
         SDL_SetRenderDrawColor(
             rend, 
-            0, 0, 75, 100);
+            0, 0, 150, 75);
         SDL_RenderFillRect(
             rend, board.board_rects[cmx][cmy]);
         SDL_RenderDrawRect(
@@ -290,7 +298,7 @@ int main(int argc, char** argv){
             SDL_RenderDrawRect(
                 rend, board.board_rects[mX][mY]);
             
-            // draw movement rects
+            // movement rects
             SDL_SetRenderDrawColor(
                 rend,
                 0, 150, 0, 100);
@@ -299,7 +307,7 @@ int main(int argc, char** argv){
                     if(can_move_to(
                         &board.board[mX][mY].piece, 
                         &board.board[x][y], 
-                        &board) == 1){
+                        &board)){
                             SDL_RenderFillRect(
                                 rend, board.board_rects[x][y]);
                             SDL_RenderDrawRect(

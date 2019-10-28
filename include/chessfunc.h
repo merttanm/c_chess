@@ -19,9 +19,12 @@ void newGame(struct Board *board);
 
 /*
  * moves a piece to the coordinates (x,y)
- * @param p pointer to point on board
+ * @param
  */ 
-void movePiece(struct Point *p);
+void movePiece(
+    struct Point *srcpt, 
+    struct Point *dstpt, 
+    struct Board *board);
 
 /*
  *
