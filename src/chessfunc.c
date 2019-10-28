@@ -509,8 +509,89 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
     }
 
     else if(strcmp(piece->type, "BISHOP") == 0){
-        //int x = piece->x;
-        //int y = piece->y;
+        int x = piece->x;
+        int y = piece->y;
+
+        //up-right
+        x += 1;
+        y -= 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+            x += 1;
+            y -= 1;
+        }
+        x = piece->x;
+        y = piece->y;
+
+        //up-left
+        x -= 1;
+        y -= 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+            x -= 1;
+            y -= 1;
+        }
+        x = piece->x;
+        y = piece->y;
+
+        //down-left
+        x -= 1;
+        y += 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+            x -= 1;
+            y += 1;
+        }
+        x = piece->x;
+        y = piece->y;
+
+        //down-right
+        x += 1;
+        y += 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+                
+            x += 1;
+            y += 1;
+        }
+
+
         return ll;
     }
 
