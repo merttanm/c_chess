@@ -596,8 +596,157 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
     }
 
     else if(strcmp(piece->type, "QUEEN") == 0){
-        //int x = piece->x;
-        //int y = piece->y;
+        int x = piece->x;
+        int y = piece->y;
+
+        // right
+        for(x+=1; x < 8; x++){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push_point(
+                    &ll,
+                    &board->board[x][y]);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push_point(
+                        &ll,
+                        &board->board[x][y]);
+                    break;
+                }
+            }
+        }
+        x = piece->x;
+        // left
+        for(x-=1; x >= 0; x--){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push_point(
+                    &ll,
+                    &board->board[x][y]);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push_point(
+                        &ll,
+                        &board->board[x][y]);
+                    break;
+                }
+            }
+        }
+        x = piece->x;
+        // up
+        for(y-=1; y >= 0; y--){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push_point(
+                    &ll,
+                    &board->board[x][y]);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push_point(
+                        &ll,
+                        &board->board[x][y]);
+                    break;
+                }
+            }
+        }
+        y = piece->y;
+        // down
+        for(y+=1; y < 8; y++){
+            if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
+                ll_push_point(
+                    &ll,
+                    &board->board[x][y]);
+            }else{
+                if(board->board[x][y].piece.side == piece->side)
+                    break;
+                else if(board->board[x][y].piece.side != piece->side){
+                    ll_push_point(
+                        &ll,
+                        &board->board[x][y]);
+                    break;
+                }
+            }
+        }
+        y = piece->y;
+        //up-right
+        x += 1;
+        y -= 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+            x += 1;
+            y -= 1;
+        }
+        x = piece->x;
+        y = piece->y;
+        //up-left
+        x -= 1;
+        y -= 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+            x -= 1;
+            y -= 1;
+        }
+        x = piece->x;
+        y = piece->y;
+        //down-left
+        x -= 1;
+        y += 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+            x -= 1;
+            y += 1;
+        }
+        x = piece->x;
+        y = piece->y;
+        //down-right
+        x += 1;
+        y += 1;
+        while(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if(board->board[x][y].piece.type == board->EMPTY)
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+            else if(board->board[x][y].piece.side != piece->side){
+                ll_push_point(
+                    &ll, 
+                    &board->board[x][y]);
+                break;
+            }else break;
+                
+            x += 1;
+            y += 1;
+        }
+
         return ll;
     }
 
