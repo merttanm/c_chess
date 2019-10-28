@@ -7,6 +7,8 @@ struct Board{
      */ 
     struct Point board[8][8];
 
+    SDL_Rect *board_rects[8][8];
+
     char* ROOK;
     char* KNIGHT;
     char* BISHOP;

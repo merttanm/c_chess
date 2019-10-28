@@ -9,31 +9,33 @@
 
 /*
  * TODO
+ * add error checking
+ * add documentation
+ * fix movement rects
  * add movement
  * test pawn movement algorithm
  * test rook movement algorithm
  */
 
 int main(int argc, char** argv){
-    struct Board board, *bptr = &board;
+    struct Board board;
     struct Piece piece, *pptr;
-    struct Node *list = malloc(sizeof(struct Node));
-    SDL_Rect *select_rect, *rectptr;
-    select_rect = malloc(sizeof(SDL_Rect));
-    initBoard(bptr);
-    newGame(bptr);
+    struct pointNode *list = malloc(sizeof(struct pointNode));
+    struct rectNode *mrect_list = malloc(sizeof(struct rectNode));
+    initBoard(&board);
+    newGame(&board);
 
-    int THICK_BOARD, THICK_PIECE; 
+    int THICK_BOARD, THICK_PIECE;
     THICK_BOARD = 800;
     THICK_PIECE = 100;
-    select_rect->w = THICK_PIECE;
-    select_rect->h = THICK_PIECE;
 
-    int mX, mY, last_mX, last_mY, flag, flag2;
+    int mX, mY, last_mX, last_mY, flag, flag2, cmx, cmy;
     mX = -1;
     mY = -1;
     flag = 0;
     flag2 = 0;
+    cmx = 0;
+    cmy = 0;
 
     // returns zero on success else non-zero
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0) 
@@ -185,6 +187,12 @@ int main(int argc, char** argv){
                 case SDL_QUIT:{
                     close = 1; 
                     break;
+                }
+
+                case SDL_MOUSEMOTION:{
+                    cmx = event.motion.x/100;
+                    cmy = event.motion.y/100;
+                    break;
                 } 
 
                 case SDL_MOUSEBUTTONDOWN:{
@@ -202,19 +210,18 @@ int main(int argc, char** argv){
                                 board.board[mX][mY].piece.type, 
                                 mX, 
                                 mY);
-                            list = getPossibleMoves(list, pptr, bptr);
+                            list = getPossibleMoves(list, pptr, &board);
                             printf("moves: ");
-                            ll_print(list);
-                                
-                            select_rect->x = mX*100;
-                            select_rect->y = mY*100;
+                            ll_print_points(list);
                             
                             if(last_mX != mX || last_mY != mY){
                                 flag = 1;
                                 flag2 = 0;
+                                mrect_list = getMRects(mrect_list, list);
                             }else if(last_mX == mX && last_mY == mY && flag2 == 1){
                                 flag = 1;
                                 flag2 = 0;
+                                mrect_list = getMRects(mrect_list, list);
                             }else if(last_mX == mX && last_mY == mY){
                                 flag = 0;
                                 flag2 = 1;
@@ -236,69 +243,81 @@ int main(int argc, char** argv){
         for(int x=0; x<8; x++){
             for(int y=0; y<8; y++){
                 piece = board.board[x][y].piece;
-                rectptr = &piece.dstrect;
 
                 if(piece.side == 0 && piece.type == board.ROOK)
-                    SDL_RenderCopy(rend, rook_tex_w, NULL, rectptr);
+                    SDL_RenderCopy(rend, rook_tex_w, NULL, &piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.ROOK)
-                    SDL_RenderCopy(rend, rook_tex_b, NULL, rectptr); 
+                    SDL_RenderCopy(rend, rook_tex_b, NULL, &piece.dstrect); 
 
                 if(piece.side == 0 && piece.type == board.KNIGHT)
-                    SDL_RenderCopy(rend, knight_tex_w, NULL, rectptr);
+                    SDL_RenderCopy(rend, knight_tex_w, NULL, &piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.KNIGHT)
-                    SDL_RenderCopy(rend, knight_tex_b, NULL, rectptr);
+                    SDL_RenderCopy(rend, knight_tex_b, NULL, &piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.BISHOP)
-                    SDL_RenderCopy(rend, bishop_tex_w, NULL, rectptr);
+                    SDL_RenderCopy(rend, bishop_tex_w, NULL, &piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.BISHOP)
-                    SDL_RenderCopy(rend, bishop_tex_b, NULL, rectptr);
+                    SDL_RenderCopy(rend, bishop_tex_b, NULL, &piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.QUEEN)
-                    SDL_RenderCopy(rend, queen_tex_w, NULL, rectptr);
+                    SDL_RenderCopy(rend, queen_tex_w, NULL, &piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.QUEEN)
-                    SDL_RenderCopy(rend, queen_tex_b, NULL, rectptr);
+                    SDL_RenderCopy(rend, queen_tex_b, NULL, &piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.KING)
-                    SDL_RenderCopy(rend, king_tex_w, NULL, rectptr);
+                    SDL_RenderCopy(rend, king_tex_w, NULL, &piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.KING)
-                    SDL_RenderCopy(rend, king_tex_b, NULL, rectptr);
+                    SDL_RenderCopy(rend, king_tex_b, NULL, &piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.PAWN)
-                    SDL_RenderCopy(rend, pawn_tex_w, NULL, rectptr);
+                    SDL_RenderCopy(rend, pawn_tex_w, NULL, &piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.PAWN)
-                    SDL_RenderCopy(rend, pawn_tex_b, NULL, rectptr);
+                    SDL_RenderCopy(rend, pawn_tex_b, NULL, &piece.dstrect);
             }
         }
-
+        // moused-over rect
         SDL_SetRenderDrawColor(
-            rend,
-            0, 0, 150, 100);
-        if(flag == 1){
-            SDL_RenderFillRect(
-                rend, select_rect);
-            SDL_RenderDrawRect(
-                rend, select_rect);
-        }
+            rend, 
+            0, 0, 75, 100);
+        SDL_RenderFillRect(
+            rend, board.board_rects[cmx][cmy]);
+        SDL_RenderDrawRect(
+            rend, board.board_rects[cmx][cmy]);
         
+        if(flag == 1){
+            
+            // selected rect
+            SDL_SetRenderDrawColor(
+                rend,
+                0, 0, 150, 100);
+            SDL_RenderFillRect(
+                rend, board.board_rects[mX][mY]);
+            SDL_RenderDrawRect(
+                rend, board.board_rects[mX][mY]);
+            
+            // draw movement rects
+            SDL_SetRenderDrawColor(
+                rend,
+                0, 150, 0, 100);
+            
+        }   
   
-        // triggers the double buffers 
-        // for multiple rendering 
+        // render whatever has been drawn
         SDL_RenderPresent(rend); 
   
         // calculates to 60 fps 
         SDL_Delay(1000 / 60);
 
     }
-    // destroy texture 
-    SDL_DestroyTexture(board_tex);
 
+    // destroy textures
+    SDL_DestroyTexture(board_tex);
     SDL_DestroyTexture(rook_tex_w);
     SDL_DestroyTexture(knight_tex_w);
     SDL_DestroyTexture(bishop_tex_w); 
     SDL_DestroyTexture(queen_tex_w);
     SDL_DestroyTexture(king_tex_w);
     SDL_DestroyTexture(pawn_tex_w);
-
     SDL_DestroyTexture(rook_tex_b);
     SDL_DestroyTexture(knight_tex_b);
     SDL_DestroyTexture(bishop_tex_b); 
@@ -306,16 +325,13 @@ int main(int argc, char** argv){
     SDL_DestroyTexture(king_tex_b);
     SDL_DestroyTexture(pawn_tex_b);
   
-    // destroy renderer 
+    // destroy renderer & window
     SDL_DestroyRenderer(rend);
-
-    // destroy window
     SDL_DestroyWindow(win);
 
     // free allocated memory
-    free(select_rect);
-    destroyBoard(bptr);
     free(list);
+    free(mrect_list);
 
     return 0;
 }

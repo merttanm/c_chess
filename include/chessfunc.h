@@ -26,15 +26,21 @@ void movePiece(struct Point *p);
 /*
  *
  */
-void ll_push(
-    struct Node **head_ref, 
-    struct Point *new_data, 
-    size_t data_size);
+void ll_push_point(
+    struct pointNode **head_ref, 
+    struct Point *new_data);
 
 /*
  *
  */
-void ll_print(struct Node *ll);  
+void ll_push_rect(
+    struct rectNode **head_ref,
+    SDL_Rect *new_data); 
+
+/*
+ *
+ */
+void ll_print_points(struct pointNode *ll);  
 
 /*
  *
@@ -44,7 +50,14 @@ char *sideStr(struct Piece *piece);
 /*
  *
  */
-struct Node *getPossibleMoves(
-    struct Node *ll, 
+struct pointNode *getPossibleMoves(
+    struct pointNode *ll, 
     struct Piece *piece,
     struct Board *board);
+
+/*
+ *
+ */
+struct rectNode *getMRects(
+    struct rectNode *rlist,
+    struct pointNode *plist); 

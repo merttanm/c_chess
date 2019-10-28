@@ -5,6 +5,16 @@
 #include "../include/chessfunc.h"
 
 void initBoard(struct Board *board){
+    for(int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+            board->board_rects[i][j] = malloc(sizeof(SDL_Rect));
+            board->board_rects[i][j]->h = 100;
+            board->board_rects[i][j]->w = 100;
+            board->board_rects[i][j]->x = i*100;
+            board->board_rects[i][j]->y = j*100;
+        }
+    }
+
     board->ROOK = malloc(sizeof(char)*10);
     board->KNIGHT = malloc(sizeof(char)*10);
     board->BISHOP = malloc(sizeof(char)*10);
@@ -209,9 +219,9 @@ void movePiece(struct Point *p){
     //code
 }
 
-void ll_push(struct Node** head_ref, struct Point *new_data, size_t data_size){
-    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node)); 
-    new_node->data = malloc(data_size);
+void ll_push_point(struct pointNode **head_ref, struct Point *new_data){
+    struct pointNode *new_node = (struct pointNode*)malloc(sizeof(struct pointNode)); 
+    new_node->data = malloc(sizeof(struct Point));
     new_node->data = new_data;
     new_node->str_data = malloc(sizeof(char)*10);
     sprintf(
@@ -219,11 +229,23 @@ void ll_push(struct Node** head_ref, struct Point *new_data, size_t data_size){
         "(%d,%d)", 
         new_node->data->x,
         new_node->data->y);
+    (*head_ref)->prev = new_node;
     new_node->next = *head_ref;
+    new_node->prev = NULL;
     *head_ref = new_node;
 }
 
-void ll_print(struct Node *ll){
+void ll_push_rect(struct rectNode **head_ref, SDL_Rect *new_data){
+    struct rectNode *new_node = (struct rectNode*)malloc(sizeof(struct rectNode));
+    new_node->data = malloc(sizeof(SDL_Rect));
+    new_node->data = new_data;
+    (*head_ref)->prev = new_node;
+    new_node->next = *head_ref;
+    new_node->prev = NULL;
+    *head_ref = new_node;
+}
+
+void ll_print_points(struct pointNode *ll){
     if(ll->data == NULL){
         printf("NULL\n");
     }else{
@@ -232,6 +254,9 @@ void ll_print(struct Node *ll){
             ll = ll->next;
         }
         printf("\n");
+        while(ll->data != NULL){
+            ll = ll->prev;
+        }
     }
 }
 
@@ -244,11 +269,10 @@ char *sideStr(struct Piece *piece){
         return "EMPTY";
 }
 
-struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board *board){
+struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, struct Board *board){
     ll->data = NULL;
     ll->str_data = "";
     ll->next = NULL;
-    unsigned pt_size = sizeof(struct Point);
     
     if(strcmp(piece->type, "ROOK") == 0){
         int x = piece->x;
@@ -257,18 +281,16 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
         // right
         for(x+=1; x < 8; x++){
             if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[x][y],
-                    pt_size);
+                    &board->board[x][y]);
             }else{
                 if(board->board[x][y].piece.side == piece->side)
                     break;
                 else if(board->board[x][y].piece.side != piece->side){
-                    ll_push(
+                    ll_push_point(
                         &ll,
-                        &board->board[x][y],
-                        pt_size);
+                        &board->board[x][y]);
                     break;
                 }
             }
@@ -278,18 +300,16 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
         // left
         for(x-=1; x >= 0; x--){
             if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[x][y],
-                    pt_size);
+                    &board->board[x][y]);
             }else{
                 if(board->board[x][y].piece.side == piece->side)
                     break;
                 else if(board->board[x][y].piece.side != piece->side){
-                    ll_push(
+                    ll_push_point(
                         &ll,
-                        &board->board[x][y],
-                        pt_size);
+                        &board->board[x][y]);
                     break;
                 }
             }
@@ -299,18 +319,16 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
         // up
         for(y-=1; y >= 0; y--){
             if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[x][y],
-                    pt_size);
+                    &board->board[x][y]);
             }else{
                 if(board->board[x][y].piece.side == piece->side)
                     break;
                 else if(board->board[x][y].piece.side != piece->side){
-                    ll_push(
+                    ll_push_point(
                         &ll,
-                        &board->board[x][y],
-                        pt_size);
+                        &board->board[x][y]);
                     break;
                 }
             }
@@ -320,18 +338,16 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
         // down
         for(y+=1; y < 8; y++){
             if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[x][y],
-                    pt_size);
+                    &board->board[x][y]);
             }else{
                 if(board->board[x][y].piece.side == piece->side)
                     break;
                 else if(board->board[x][y].piece.side != piece->side){
-                    ll_push(
+                    ll_push_point(
                         &ll,
-                        &board->board[x][y],
-                        pt_size);
+                        &board->board[x][y]);
                     break;
                 }
             }
@@ -374,36 +390,32 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
                 for(y-=1; y >= piece->y-2; y--){
                     if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0)
                         break;
-                    ll_push(
+                    ll_push_point(
                         &ll, 
-                        &board->board[x][y], 
-                        pt_size);
+                        &board->board[x][y]);
                 }
             }else{
                 y-=1;
                 if(strcmp(board->board[x][y].piece.type, "EMPTY") == 0)
-                    ll_push(
+                    ll_push_point(
                         &ll,
-                        &board->board[x][y],
-                        pt_size);
+                        &board->board[x][y]);
             }
 
             // captures
             if(strcmp(board->board[piece->x-1][piece->y-1].piece.type, "EMPTY") != 0
             && piece->x-1 >= 0 && piece->x-1 <= 7
             && piece->y-1 >= 0 && piece->y-1 <= 7){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[piece->x-1][piece->y-1],
-                    pt_size);
+                    &board->board[piece->x-1][piece->y-1]);
             }
             if(strcmp(board->board[piece->x+1][piece->y-1].piece.type, "EMPTY") != 0
             && piece->x+1 >= 0 && piece->x+1 <= 7
             && piece->y-1 >= 0 && piece->y-1 <= 7){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[piece->x+1][piece->y-1],
-                    pt_size);
+                    &board->board[piece->x+1][piece->y-1]);
             }
         }else if(piece->side == 1){
             // regular movements
@@ -411,36 +423,32 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
                 for(y+=1; y <= piece->y+2; y++){
                     if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0)
                         break;
-                    ll_push(
+                    ll_push_point(
                         &ll, 
-                        &board->board[x][y], 
-                        pt_size);
+                        &board->board[x][y]);
                 }
             }else{
                 y+=1;
                 if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0)
-                    ll_push(
+                    ll_push_point(
                         &ll,
-                        &board->board[x][y],
-                        pt_size);
+                        &board->board[x][y]);
             }
 
             // captures
             if(strcmp(board->board[piece->x-1][piece->y+1].piece.type, "EMPTY") != 0
             && piece->x-1 >= 0 && piece->x-1 <= 7
             && piece->y+1 >= 0 && piece->y+1 <= 7){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[piece->x-1][piece->y+1],
-                    pt_size);
+                    &board->board[piece->x-1][piece->y+1]);
             }
             if(strcmp(board->board[piece->x+1][piece->y+1].piece.type, "EMPTY") != 0
             && piece->x+1 >= 0 && piece->x+1 <= 7
             && piece->y+1 >= 0 && piece->y+1 <= 7){
-                ll_push(
+                ll_push_point(
                     &ll,
-                    &board->board[piece->x+1][piece->y+1],
-                    pt_size);
+                    &board->board[piece->x+1][piece->y+1]);
             }
         }
 
@@ -452,4 +460,25 @@ struct Node *getPossibleMoves(struct Node *ll, struct Piece *piece, struct Board
     }
         
     return ll;
+}
+
+struct rectNode *getMRects(struct rectNode *rlist, struct pointNode *plist){
+    rlist->data = NULL;
+    rlist->next = NULL;
+    
+    SDL_Rect *rptr = malloc(sizeof(SDL_Rect));
+    rptr->h = 100;
+    rptr->w = 100;
+
+    while(plist->data != NULL){
+        rptr->x = plist->data->x*100;
+        rptr->y = plist->data->y*100;
+        ll_push_rect(
+            &rlist,
+            rptr);
+
+        plist = plist->next;
+    }
+
+    return rlist;
 }
