@@ -482,3 +482,19 @@ struct rectNode *getMRects(struct rectNode *rlist, struct pointNode *plist){
 
     return rlist;
 }
+
+int can_move_to(struct Piece *piece, struct Point *dstpt, struct Board *board){
+    struct pointNode *plist;
+    plist = malloc(sizeof(struct pointNode));
+    plist = getPossibleMoves(plist, piece, board);
+
+    while(plist->data != NULL){
+        if(plist->data->x == dstpt->x && plist->data->y == dstpt->y)
+            return 1;
+        plist = plist->next;
+    }
+
+    free(plist);
+
+    return 0;
+}

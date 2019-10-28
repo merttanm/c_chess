@@ -11,7 +11,6 @@
  * TODO
  * add error checking
  * add documentation
- * fix movement rects
  * add movement
  * test pawn movement algorithm
  * test rook movement algorithm
@@ -30,12 +29,8 @@ int main(int argc, char** argv){
     THICK_PIECE = 100;
 
     int mX, mY, last_mX, last_mY, flag, flag2, cmx, cmy;
-    mX = -1;
-    mY = -1;
-    flag = 0;
-    flag2 = 0;
-    cmx = 0;
-    cmy = 0;
+    mX = mY = -1;
+    flag = flag2 = cmx = cmy = 0;
 
     // returns zero on success else non-zero
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0) 
@@ -299,6 +294,19 @@ int main(int argc, char** argv){
             SDL_SetRenderDrawColor(
                 rend,
                 0, 150, 0, 100);
+            for(int x=0; x<8; x++){
+                for(int y=0; y<8; y++){
+                    if(can_move_to(
+                        &board.board[mX][mY].piece, 
+                        &board.board[x][y], 
+                        &board) == 1){
+                            SDL_RenderFillRect(
+                                rend, board.board_rects[x][y]);
+                            SDL_RenderDrawRect(
+                                rend, board.board_rects[x][y]);
+                        }
+                }
+            }
             
         }   
   

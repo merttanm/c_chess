@@ -60,4 +60,12 @@ struct pointNode *getPossibleMoves(
  */
 struct rectNode *getMRects(
     struct rectNode *rlist,
-    struct pointNode *plist); 
+    struct pointNode *plist);
+
+/*
+ *
+ */
+int can_move_to(
+    struct Piece *piece, 
+    struct Point *dstpt, 
+    struct Board *board); 
