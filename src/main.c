@@ -13,6 +13,7 @@
  * add documentation
  * add remaining piece movement algorithms 
  * add pawn trade-in mechanic
+ * add rook castling mechanic w/ king
  * test pawn movement algorithm
  * test rook movement algorithm
  */

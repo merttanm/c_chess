@@ -364,8 +364,147 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
     }
 
     else if(strcmp(piece->type, "KNIGHT") == 0){
-        //int x = piece->x;
-        //int y = piece->y;
+        int x = piece->x;
+        int y = piece->y;
+
+        y += 2;
+        if(y >= 0 && y < 8){
+            x = piece->x+1;
+            if(x >= 0 && x < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+
+            x = piece->x-1;
+            if(x >= 0 && x < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+        }
+        x = piece->x;
+        y = piece->y;
+
+        y-= 2;
+        if(y >= 0 && y < 8){
+            x = piece->x+1;
+            if(x >= 0 && x < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+
+            x = piece->x-1;
+            if(x >= 0 && x < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+        }
+        x = piece->x;
+        y = piece->y;
+
+        x += 2;
+        if(x >= 0 && x < 8){
+            y = piece->y+1;
+            if(y >= 0 && y < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+
+            y = piece->y-1;
+            if(y >= 0 && y < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+        }
+        x = piece->x;
+        y = piece->y;
+
+        x-= 2;
+        if(x >= 0 && x < 8){
+            y = piece->y+1;
+            if(y >= 0 && y < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+
+            y = piece->y-1;
+            if(y >= 0 && y < 8){
+                if(strcmp(board->board[x][y].piece.type, "EMPTY") != 0){
+                    if(board->board[x][y].piece.side != piece->side){
+                        ll_push_point(
+                            &ll, 
+                            &board->board[x][y]);
+                    }
+                }else{
+                    ll_push_point(
+                        &ll, 
+                        &board->board[x][y]);
+                }
+            }
+        }
+
         return ll;
     }
 
