@@ -100,7 +100,7 @@ struct rectNode *getMRects(
 
 /*
  * boolean variable determining whether
- * piece may move to dstpt or not.
+ * piece may move to dstpt or not
  * @param piece pointer to piece to check
  * @param dstpt pointer to point to check
  * @param board pointer to board data structure

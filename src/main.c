@@ -26,10 +26,9 @@ int main(int argc, char** argv){
     newGame(&board);
 
     int THICK_BOARD, THICK_PIECE;
+    int mX, mY, last_mX, last_mY, flag, flag2, flag3, cmx, cmy;
     THICK_BOARD = 800;
     THICK_PIECE = 100;
-
-    int mX, mY, last_mX, last_mY, flag, flag2, flag3, cmx, cmy;
     mX = mY = -1;
     flag = flag2 = flag3 = cmx = cmy = 0;
 
@@ -168,18 +167,18 @@ int main(int argc, char** argv){
         SDL_Event event;  
         while(SDL_PollEvent(&event)){ 
             switch(event.type){ 
-                case SDL_QUIT:{
+                case SDL_QUIT:
                     close = 1; 
                     break;
-                }
+                
 
-                case SDL_MOUSEMOTION:{
+                case SDL_MOUSEMOTION:
                     cmx = event.motion.x/100;
                     cmy = event.motion.y/100;
                     break;
-                } 
+                
 
-                case SDL_MOUSEBUTTONDOWN:{
+                case SDL_MOUSEBUTTONDOWN:
                     last_mX = mX;
                     last_mY = mY;
                     mX = event.button.x/100;
@@ -232,7 +231,7 @@ int main(int argc, char** argv){
                         
                         default: break;
                     }
-                }
+                
             }
         }
 
