@@ -5,6 +5,9 @@
 #include "../include/chessfunc.h"
 
 void initBoard(struct Board *board){
+    board->white_pcs = malloc(sizeof(struct pieceNode));
+    board->black_pcs = malloc(sizeof(struct pieceNode));
+
     for(int i=0; i<8; i++){
         for(int j=0; j<8; j++){
             board->board_rects[i][j] = malloc(sizeof(SDL_Rect));
@@ -63,6 +66,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if((x==0 || x==7) && y==7){
                 piece.side = 0;
@@ -74,6 +78,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -88,6 +93,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if((x==1 || x==6) && y==7){
                 piece.side = 0;
@@ -99,6 +105,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -113,6 +120,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if((x==2 || x==5) && y==7){
                 piece.side = 0;
@@ -124,6 +132,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -138,6 +147,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if(x==3 && y==7){
                 piece.side = 0;
@@ -149,6 +159,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -163,6 +174,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if(x==4 && y==7){
                 piece.side = 0;
@@ -174,6 +186,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -188,6 +201,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if(y==6){
                 piece.side = 0;
@@ -199,6 +213,7 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
+                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -252,8 +267,20 @@ void ll_push_rect(struct rectNode **head_ref, SDL_Rect *new_data){
     *head_ref = new_node;
 }
 
+void ll_push_piece(struct pieceNode **head_ref, struct Piece *new_data){
+    struct pieceNode *new_node = (struct pieceNode*)malloc(sizeof(struct pieceNode));
+    new_node->data = malloc(sizeof(struct Piece));
+    new_node->data = new_data;
+    (*head_ref)->prev = new_node;
+    new_node->next = *head_ref;
+    new_node->prev = NULL;
+    *head_ref = new_node;
+}
+
 void ll_print_points(struct pointNode *ll){
     if(ll->data == NULL){
+        if(ll->prev != NULL || ll->next != NULL)
+            printf("nggr\n");
         printf("NULL\n");
     }else{
         while(ll->data != NULL){
@@ -751,8 +778,8 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
     }
 
     else if(strcmp(piece->type, "KING") == 0){
-        //int x = piece->x;
-        //int y = piece->y;
+        //int x, y;
+        
         return ll;
     }
 

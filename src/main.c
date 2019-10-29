@@ -10,7 +10,7 @@
 /*
  * TODO
  * add error checking
- * add documentation
+ * clean up code
  * add remaining piece movement algorithms 
  * add pawn trade-in mechanic
  * add rook castling mechanic w/ king
@@ -208,16 +208,14 @@ int main(int argc, char** argv){
                                             &board.board[last_mX][last_mY],
                                             &board.board[mX][mY],
                                             &board);
-                                    }
-                                        
+                                    }      
                             }
 
                             if(flag3 == 1){
                                 flag = 0;
                                 flag2 = 1;
                                 flag3 = 0;
-                            }
-                            else if(last_mX != mX || last_mY != mY){
+                            }else if(last_mX != mX || last_mY != mY){
                                 flag = 1;
                                 flag2 = 0;
                                 mrect_list = getMRects(mrect_list, list);
