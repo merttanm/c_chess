@@ -53,7 +53,6 @@ void newGame(struct Board *board){
         for(int y=0; y<8; y++){
             point.x = x;
             point.y = y;
-            
 
             // rooks
             if((x==0 || x==7) && y==0){
@@ -278,11 +277,9 @@ void ll_push_piece(struct pieceNode **head_ref, struct Piece *new_data){
 }
 
 void ll_print_points(struct pointNode *ll){
-    if(ll->data == NULL){
-        if(ll->prev != NULL || ll->next != NULL)
-            printf("nggr\n");
+    if(ll->data == NULL)
         printf("NULL\n");
-    }else{
+    else{
         while(ll->data != NULL){
             printf("%s ", ll->str_data);
             ll = ll->next;

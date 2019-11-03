@@ -14,7 +14,9 @@
  * add remaining piece movement algorithms 
  * add pawn trade-in mechanic
  * add rook castling mechanic w/ king
+ * add check and checkmate mechanics
  * test all movement algorithms
+ * fix memory leaks
  */
 
 int main(int argc, char** argv){
