@@ -87,7 +87,7 @@ struct pointNode *getPossibleMoves(
 
 /*
  * get a linked list of rects 
- * representing the squares in which 
+ * representing the points in which 
  * a piece may move to
  * @param rlist linked list of rects to write to
  * @param plist linked list of points to write to

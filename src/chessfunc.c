@@ -65,7 +65,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if((x==0 || x==7) && y==7){
                 piece.side = 0;
@@ -77,7 +76,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -92,7 +90,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if((x==1 || x==6) && y==7){
                 piece.side = 0;
@@ -104,7 +101,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -119,7 +115,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if((x==2 || x==5) && y==7){
                 piece.side = 0;
@@ -131,7 +126,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -146,7 +140,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if(x==3 && y==7){
                 piece.side = 0;
@@ -158,7 +151,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -173,7 +165,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if(x==4 && y==7){
                 piece.side = 0;
@@ -185,7 +176,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -200,7 +190,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->black_pcs, &point.piece);
                 board->board[x][y] = point;
             }else if(y==6){
                 piece.side = 0;
@@ -212,7 +201,6 @@ void newGame(struct Board *board){
                 piece.dstrect.x = x*100;
                 piece.dstrect.y = y*100;
                 point.piece = piece;
-                ll_push_piece(&board->white_pcs, &point.piece);
                 board->board[x][y] = point;
             }
 
@@ -802,21 +790,23 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
             }
 
             // captures
-            if(strcmp(board->board[piece->x-1][piece->y-1].piece.type, "EMPTY") != 0
-            && piece->x-1 >= 0 && piece->x-1 <= 7
+            if(piece->x-1 >= 0 && piece->x-1 <= 7
             && piece->y-1 >= 0 && piece->y-1 <= 7
             && board->board[piece->x-1][piece->y-1].piece.side == 1){
-                ll_push_point(
-                    &ll,
-                    &board->board[piece->x-1][piece->y-1]);
+                if(strcmp(board->board[piece->x-1][piece->y-1].piece.type, "EMPTY") != 0){
+                    ll_push_point(
+                        &ll,
+                        &board->board[piece->x-1][piece->y-1]);
+                }
             }
-            if(strcmp(board->board[piece->x+1][piece->y-1].piece.type, "EMPTY") != 0
-            && piece->x+1 >= 0 && piece->x+1 <= 7
+            if(piece->x+1 >= 0 && piece->x+1 <= 7
             && piece->y-1 >= 0 && piece->y-1 <= 7
             && board->board[piece->x+1][piece->y-1].piece.side == 1){
-                ll_push_point(
-                    &ll,
-                    &board->board[piece->x+1][piece->y-1]);
+                if(strcmp(board->board[piece->x+1][piece->y-1].piece.type, "EMPTY") != 0){
+                    ll_push_point(
+                        &ll,
+                        &board->board[piece->x+1][piece->y-1]);
+                }
             }
         }else if(piece->side == 1){
             // regular movements
@@ -836,21 +826,23 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
             }
 
             // captures
-            if(strcmp(board->board[piece->x-1][piece->y+1].piece.type, "EMPTY") != 0
-            && piece->x-1 >= 0 && piece->x-1 <= 7
+            if(piece->x-1 >= 0 && piece->x-1 <= 7
             && piece->y+1 >= 0 && piece->y+1 <= 7
             && board->board[piece->x-1][piece->y+1].piece.side == 0){
-                ll_push_point(
-                    &ll,
-                    &board->board[piece->x-1][piece->y+1]);
+                if(strcmp(board->board[piece->x-1][piece->y+1].piece.type, "EMPTY") != 0){
+                    ll_push_point(
+                        &ll,
+                        &board->board[piece->x-1][piece->y+1]);
+                }
             }
-            if(strcmp(board->board[piece->x+1][piece->y+1].piece.type, "EMPTY") != 0
-            && piece->x+1 >= 0 && piece->x+1 <= 7
+            if(piece->x+1 >= 0 && piece->x+1 <= 7
             && piece->y+1 >= 0 && piece->y+1 <= 7
             && board->board[piece->x+1][piece->y+1].piece.side == 0){
-                ll_push_point(
+                if(strcmp(board->board[piece->x+1][piece->y+1].piece.type, "EMPTY") != 0){
+                    ll_push_point(
                     &ll,
                     &board->board[piece->x+1][piece->y+1]);
+                }
             }
         }
 
@@ -881,7 +873,6 @@ struct rectNode *getMRects(struct rectNode *rlist, struct pointNode *plist){
 
         plist = plist->next;
     }
-
     return rlist;
 }
 

@@ -15,8 +15,10 @@
  * add pawn trade-in mechanic
  * add rook castling mechanic w/ king
  * add check and checkmate mechanics
+ * add turn mechanic
  * test all movement algorithms
  * fix memory leaks
+ * change the fact that SDL is entirely initialized
  */
 
 int main(int argc, char** argv){
@@ -321,7 +323,7 @@ int main(int argc, char** argv){
         SDL_RenderPresent(rend); 
   
         // calculates to 60 fps 
-        SDL_Delay(1000 / 60);
+        SDL_Delay(1000/60);
 
     }
 
