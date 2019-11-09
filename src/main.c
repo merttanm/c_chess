@@ -9,6 +9,10 @@
 
 /*
  * TODO
+ * 
+ * @next = store each white and black piece in their
+ * respective list within Board data structure
+ * 
  * add error checking
  * clean up code
  * add remaining piece movement algorithms 
