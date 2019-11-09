@@ -18,13 +18,13 @@ void initBoard(struct Board *board){
         }
     }
 
-    board->ROOK = malloc(sizeof(char)*10);
-    board->KNIGHT = malloc(sizeof(char)*10);
-    board->BISHOP = malloc(sizeof(char)*10);
-    board->QUEEN = malloc(sizeof(char)*10);
-    board->KING = malloc(sizeof(char)*10);
-    board->PAWN = malloc(sizeof(char)*10);
-    board->EMPTY = malloc(sizeof(char)*10);
+    board->ROOK = malloc(sizeof(char)*4);
+    board->KNIGHT = malloc(sizeof(char)*6);
+    board->BISHOP = malloc(sizeof(char)*6);
+    board->QUEEN = malloc(sizeof(char)*5);
+    board->KING = malloc(sizeof(char)*4);
+    board->PAWN = malloc(sizeof(char)*4);
+    board->EMPTY = malloc(sizeof(char)*5);
 
     strcpy(board->ROOK, "ROOK");
     strcpy(board->KNIGHT, "KNIGHT");
