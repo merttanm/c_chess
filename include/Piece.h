@@ -35,5 +35,5 @@ struct Piece{
      * rect representing the position of
      * the sprite of this piece
      */
-    SDL_Rect dstrect;
+    SDL_Rect *dstrect;
 };

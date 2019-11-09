@@ -46,180 +46,187 @@ void destroyBoard(struct Board *board){
 }
 
 void newGame(struct Board *board){
-    struct Point point;
-    struct Piece piece;
+    struct Point *point[8][8];
+    struct Piece *piece[8][8];
     int px = 100;
     for(int x=0; x<8; x++){
         for(int y=0; y<8; y++){
-            point.x = x;
-            point.y = y;
+            point[x][y] = malloc(sizeof(struct Point));
+            piece[x][y] = malloc(sizeof(struct Piece));
+            piece[x][y]->dstrect = malloc(sizeof(SDL_Rect));
+            point[x][y]->x = x;
+            point[x][y]->y = y;
 
             // rooks
             if((x==0 || x==7) && y==0){
-                piece.side = 1;
-                piece.type = board->ROOK;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 1;
+                piece[x][y]->type = board->ROOK;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }else if((x==0 || x==7) && y==7){
-                piece.side = 0;
-                piece.type = board->ROOK;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 0;
+                piece[x][y]->type = board->ROOK;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
 
             // knights
             else if((x==1 || x==6) && y==0){
-                piece.side = 1;
-                piece.type = board->KNIGHT;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 1;
+                piece[x][y]->type = board->KNIGHT;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }else if((x==1 || x==6) && y==7){
-                piece.side = 0;
-                piece.type = board->KNIGHT;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 0;
+                piece[x][y]->type = board->KNIGHT;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
 
             // bishops
             else if((x==2 || x==5) && y==0){
-                piece.side = 1;
-                piece.type = board->BISHOP;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 1;
+                piece[x][y]->type = board->BISHOP;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }else if((x==2 || x==5) && y==7){
-                piece.side = 0;
-                piece.type = board->BISHOP;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 0;
+                piece[x][y]->type = board->BISHOP;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
 
             // queens
             else if(x==3 && y==0){
-                piece.side = 1;
-                piece.type = board->QUEEN;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 1;
+                piece[x][y]->type = board->QUEEN;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }else if(x==3 && y==7){
-                piece.side = 0;
-                piece.type = board->QUEEN;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 0;
+                piece[x][y]->type = board->QUEEN;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
 
             // kings
             else if(x==4 && y==0){
-                piece.side = 1;
-                piece.type = board->KING;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 1;
+                piece[x][y]->type = board->KING;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }else if(x==4 && y==7){
-                piece.side = 0;
-                piece.type = board->KING;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 0;
+                piece[x][y]->type = board->KING;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
 
             // pawns
             else if(y==1){
-                piece.side = 1;
-                piece.type = board->PAWN;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 1;
+                piece[x][y]->type = board->PAWN;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }else if(y==6){
-                piece.side = 0;
-                piece.type = board->PAWN;
-                piece.x = x;
-                piece.y = y;
-                piece.dstrect.h = px;
-                piece.dstrect.w = px;
-                piece.dstrect.x = x*100;
-                piece.dstrect.y = y*100;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = 0;
+                piece[x][y]->type = board->PAWN;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
 
             // empties
             else{
-                piece.side = -1;
-                piece.type = board->EMPTY;
-                piece.x = x;
-                piece.y = y;
-                point.piece = piece;
-                board->board[x][y] = point;
+                piece[x][y]->side = -1;
+                piece[x][y]->type = board->EMPTY;
+                piece[x][y]->x = x;
+                piece[x][y]->y = y;
+                piece[x][y]->dstrect->h = px;
+                piece[x][y]->dstrect->w = px;
+                piece[x][y]->dstrect->x = x*100;
+                piece[x][y]->dstrect->y = y*100;
+                point[x][y]->piece = *piece[x][y];
+                board->board[x][y] = *point[x][y];
             }
         }
     }
 }
 
 void movePiece(struct Point *srcpt, struct Point *dstpt, struct Board *board){
-    dstpt->piece.dstrect.x = dstpt->x*100;
-    dstpt->piece.dstrect.y = dstpt->y*100;
+    dstpt->piece.dstrect->x = dstpt->x*100;
+    dstpt->piece.dstrect->y = dstpt->y*100;
 
     dstpt->piece.type = srcpt->piece.type;
     srcpt->piece.type = board->EMPTY;
@@ -783,10 +790,11 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
                         &board->board[x][y]);
                 }
             }else{
-                if(strcmp(board->board[x][y-1].piece.type, "EMPTY") == 0)
-                    ll_push_point(
-                        &ll,
-                        &board->board[x][y-1]);
+                if(piece->y-1 >= 0)
+                    if(strcmp(board->board[x][y-1].piece.type, "EMPTY") == 0)
+                        ll_push_point(
+                            &ll,
+                            &board->board[x][y-1]);
             }
 
             // captures
@@ -819,10 +827,11 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
                         &board->board[x][y]);
                 }
             }else{
-                if(strcmp(board->board[x][y+1].piece.type, "EMPTY") == 0)
-                    ll_push_point(
-                        &ll,
-                        &board->board[x][y+1]);
+                if(piece->y+1 <= 7)
+                    if(strcmp(board->board[x][y+1].piece.type, "EMPTY") == 0)
+                        ll_push_point(
+                            &ll,
+                            &board->board[x][y+1]);
             }
 
             // captures
@@ -845,7 +854,6 @@ struct pointNode *getPossibleMoves(struct pointNode *ll, struct Piece *piece, st
                 }
             }
         }
-
         return ll;
     }
 

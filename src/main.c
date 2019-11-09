@@ -249,34 +249,34 @@ int main(int argc, char** argv){
                 piece = board.board[x][y].piece;
 
                 if(piece.side == 0 && piece.type == board.ROOK)
-                    SDL_RenderCopy(rend, rook_tex_w, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, rook_tex_w, NULL, piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.ROOK)
-                    SDL_RenderCopy(rend, rook_tex_b, NULL, &piece.dstrect); 
+                    SDL_RenderCopy(rend, rook_tex_b, NULL, piece.dstrect); 
 
                 if(piece.side == 0 && piece.type == board.KNIGHT)
-                    SDL_RenderCopy(rend, knight_tex_w, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, knight_tex_w, NULL, piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.KNIGHT)
-                    SDL_RenderCopy(rend, knight_tex_b, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, knight_tex_b, NULL, piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.BISHOP)
-                    SDL_RenderCopy(rend, bishop_tex_w, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, bishop_tex_w, NULL, piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.BISHOP)
-                    SDL_RenderCopy(rend, bishop_tex_b, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, bishop_tex_b, NULL, piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.QUEEN)
-                    SDL_RenderCopy(rend, queen_tex_w, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, queen_tex_w, NULL, piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.QUEEN)
-                    SDL_RenderCopy(rend, queen_tex_b, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, queen_tex_b, NULL, piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.KING)
-                    SDL_RenderCopy(rend, king_tex_w, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, king_tex_w, NULL, piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.KING)
-                    SDL_RenderCopy(rend, king_tex_b, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, king_tex_b, NULL, piece.dstrect);
 
                 if(piece.side == 0 && piece.type == board.PAWN)
-                    SDL_RenderCopy(rend, pawn_tex_w, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, pawn_tex_w, NULL, piece.dstrect);
                 else if(piece.side == 1 && piece.type == board.PAWN)
-                    SDL_RenderCopy(rend, pawn_tex_b, NULL, &piece.dstrect);
+                    SDL_RenderCopy(rend, pawn_tex_b, NULL, piece.dstrect);
             }
         }
         // moused-over rect
