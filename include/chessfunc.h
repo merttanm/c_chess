@@ -111,3 +111,10 @@ int can_move_to(
     struct Piece *piece, 
     struct Point *dstpt, 
     struct Board *board);
+
+/*
+ * empties a linked list of pieces
+ * @param head_ref pointer to pointer to head ref
+ ** of a linked list containing pieces
+ */ 
+void emptyPieceList(struct pieceNode **head_ref);

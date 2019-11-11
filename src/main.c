@@ -10,8 +10,8 @@
 /*
  * TODO
  * 
- * @next = store each white and black piece in their
- * respective list within Board data structure
+ * @next = record every possible move of each
+ ** piece in linked lists each round
  * 
  * add error checking
  * clean up code

@@ -46,6 +46,9 @@ void destroyBoard(struct Board *board){
 }
 
 void newGame(struct Board *board){
+    emptyPieceList(&board->white_pcs);
+    emptyPieceList(&board->black_pcs);
+
     struct Point *point[8][8];
     struct Piece *piece[8][8];
     int px = 100;
@@ -68,6 +71,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->black_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }else if((x==0 || x==7) && y==7){
                 piece[x][y]->side = 0;
@@ -79,6 +83,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->white_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }
 
@@ -93,6 +98,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->black_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }else if((x==1 || x==6) && y==7){
                 piece[x][y]->side = 0;
@@ -104,6 +110,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->white_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }
 
@@ -118,6 +125,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->black_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }else if((x==2 || x==5) && y==7){
                 piece[x][y]->side = 0;
@@ -129,6 +137,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->white_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }
 
@@ -143,6 +152,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->black_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }else if(x==3 && y==7){
                 piece[x][y]->side = 0;
@@ -154,6 +164,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->white_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }
 
@@ -168,6 +179,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->black_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }else if(x==4 && y==7){
                 piece[x][y]->side = 0;
@@ -179,6 +191,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->white_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }
 
@@ -193,6 +206,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->black_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }else if(y==6){
                 piece[x][y]->side = 0;
@@ -204,6 +218,7 @@ void newGame(struct Board *board){
                 piece[x][y]->dstrect->x = x*100;
                 piece[x][y]->dstrect->y = y*100;
                 point[x][y]->piece = *piece[x][y];
+                ll_push_piece(&board->white_pcs, piece[x][y]);
                 board->board[x][y] = *point[x][y];
             }
 
@@ -899,3 +914,18 @@ int can_move_to(struct Piece *piece, struct Point *dstpt, struct Board *board){
 
     return 0;
 }
+
+void emptyPieceList(struct pieceNode **head_ref){
+    if((*head_ref)->data == NULL) return;
+
+    struct pieceNode *current = *head_ref; 
+    struct pieceNode *next; 
+  
+    while(current != NULL){ 
+        next = current->next; 
+        free(current); 
+        current = next; 
+    }
+    
+    *head_ref = NULL; 
+} 
