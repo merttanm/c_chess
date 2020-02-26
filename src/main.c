@@ -13,6 +13,7 @@
  * @next = record every possible move of each
  ** piece in linked lists each round
  * 
+ * add SDL2 dependency files to a lib folder
  * add error checking
  * clean up code
  * add remaining piece movement algorithms 
